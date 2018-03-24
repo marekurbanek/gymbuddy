@@ -1,0 +1,9 @@
+.SetContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* .SetContainer div {
+    min-width: 30px;
+} */
