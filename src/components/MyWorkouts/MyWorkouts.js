@@ -9,14 +9,38 @@ import * as actionTypes from '../../actions/actions';
 class MyWorkouts extends Component {
     state = {
         addingNewWorkout: false,
-    };
+        showingNewSet: {
+            workoutId: null,
+            exerciseId: null,
+            shouldShow: false,
+        }
+    }
 
     showWorkoutForm = () => {
         this.setState({addingNewWorkout: !this.state.addingNewWorkout});
     }
 
+    addNewWorkoutAndHideForm = () => {
+        this.setState({addingNewWorkout: false});
+        this.props.addNewWorkout(this.props.workoutName, this.props.workoutDate);
+        this.props.clearWorkoutInputs();
+    }
 
-    
+    onWorkoutHover = (event, workoutId, exerciseId) =>{
+        this.setState({showingNewSet: {
+            workoutId: workoutId,
+            exerciseId: exerciseId,
+            shouldShow: true,
+        }});
+    }
+
+    onMouseLeaveExercise = () => {
+        this.setState({showingNewSet: {
+            workoutId: null,
+            exerciseId: null,
+            shouldShow: false
+        }})
+    }
 
     render(){
         const workoutList = this.props.workouts;
@@ -25,9 +49,17 @@ class MyWorkouts extends Component {
                 <Workout 
                     key={workout.name} 
                     name={workout.name} 
-                    exercises={workout.exercises} 
                     date={workout.date}
-                    addExercise={() => this.props.addExercise(workout.id)}/> 
+                    exercises={workout.exercises} 
+                    workoutId={workout.id}
+                    addExercise={() => this.props.addExercise(workout.id)}
+                    onMouseEnter={(event, exerciseId) => this.onWorkoutHover(event, workout.id, exerciseId)}
+                    onMouseLeave={this.onMouseLeaveExercise}
+                    showingNewSet={this.state.showingNewSet}
+                    addNewSet={(workoutId, exerciseId) => this.props.addSet(workoutId, exerciseId)}
+                    saveExerciseTitle={(workoutId, exerciseId) => this.props.saveExerciseTitle(workoutId, exerciseId)}
+                    exerciseTitleChanged={(event) => this.props.exerciseTitleChanged(event)}
+                    /> 
             );
         });
 
@@ -41,7 +73,7 @@ class MyWorkouts extends Component {
                     workoutDateChanged={this.props.workoutDateChanged}
                     workoutName={this.props.workoutName}
                     workoutDate={this.props.workoutDate}
-                    addNewWorkout={() => this.props.addNewWorkout(this.props.workoutName, this.props.workoutDate)}
+                    addNewWorkout={this.addNewWorkoutAndHideForm}
                 />
                 {allWorkouts}
             </Wrap>
@@ -53,7 +85,8 @@ const mapStateToProps = state => {
     return {
         workouts: state.workouts,
         workoutName: state.workoutName,
-        workoutDate: state.workoutDate
+        workoutDate: state.workoutDate,
+        exerciseTitle: state.exerciseTitle
     };
 }
 
@@ -73,8 +106,28 @@ const mapDispatchToProps = dispatch => {
         }),
         addExercise: (id) => dispatch({
             type: actionTypes.ADD_EXERCISE,
-            workoutId: id-1,
-        })
+            workoutId: id - 1,
+
+        }),
+        clearWorkoutInputs: () => dispatch({
+            type: actionTypes.CLEAR_WORKOUT_INPUT
+        }),
+        exerciseTitleChanged: (event) => dispatch({
+            type: actionTypes.TITLE_CHANGED,
+            newTitle: event.target.value,
+        }),
+        addSet: (workoutId, exerciseId) => dispatch({
+            type: actionTypes.ADD_SET,
+            workoutId: workoutId,
+            exerciseId: exerciseId
+        }),
+        saveExerciseTitle: (workoutId, exerciseId) => dispatch({
+            type: actionTypes.SAVE_EXERCISE_TITLE,
+            workoutId: workoutId,
+            exerciseId: exerciseId,
+            exerciseTitle: this.props.exerciseTitle
+        }),
+
     };
 }
 

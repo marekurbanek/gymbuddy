@@ -8,6 +8,7 @@ const initialState = {
             date: '23.03.2018',
             exercises: [
                 {
+                    id: 1,
                     name: 'Wyciskanie sztangi lezac',
                     sets: [
                         {
@@ -31,6 +32,7 @@ const initialState = {
                     ]
                 },
                 {
+                    id: 2,
                     name: 'Triceps',
                     sets: [
                         {
@@ -61,6 +63,7 @@ const initialState = {
             date: '25.03.2018',
             exercises: [
                 {
+                    id: 1,
                     name: 'Wyciskanie sztangi lezac',
                     sets: [
                         {
@@ -84,6 +87,7 @@ const initialState = {
                     ]
                 },
                 {
+                    id: 2,
                     name: 'Plecy wyciag',
                     sets: [
                         {
@@ -110,7 +114,8 @@ const initialState = {
         }
     ],
     workoutName: '',
-    workoutDate: ''
+    workoutDate: '',
+    exerciseTitle: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -143,17 +148,14 @@ const reducer = (state = initialState, action) => {
                 workoutDate: action.value
             }
         case actionTypes.ADD_EXERCISE:
+            const exercisesLength = state.workouts[action.workoutId].exercises.length;
             const newExercises = [
                 ...state.workouts[action.workoutId].exercises,
                 {
-                    name: 'obijanie sie',
+                    id: exercisesLength + 1,
+                    name: null,
                     sets: [
-                        {
-                            id: 5,
-                            weight: 25,
-                            repetitions: 999999,
-                            comment: ''                                
-                        },
+
                     ]
                 }
             ];
@@ -164,6 +166,48 @@ const reducer = (state = initialState, action) => {
             return{
                 ...state,
                 workouts: newWorkouts
+            }
+        case actionTypes.CLEAR_WORKOUT_INPUT:
+            return{
+                ...state,
+                workoutName: '',
+                workoutDate: ''
+            }
+        case actionTypes.ADD_SET:
+            console.log(state.exerciseTitle)
+            const workoutIdTable = action.workoutId -1;
+            const exerciseIdTable = action.exerciseId -1;
+            
+            const workouts = [
+                ...state.workouts,
+            ];
+            
+            const setLength = workouts[workoutIdTable].exercises[exerciseIdTable].sets.length;
+            workouts[workoutIdTable].exercises[exerciseIdTable].sets = [
+                ...workouts[workoutIdTable].exercises[exerciseIdTable].sets,
+                {
+                    id: setLength + 1,
+                    weight: 24,
+                    repetitions: 499,
+                    comment: 'hahaha'
+                }
+            ]
+            return{
+                ...state,
+                workouts
+            }
+        case actionTypes.SAVE_EXERCISE_TITLE:
+            let newTitle = {
+                ...state
+            }
+            console.log( newTitle.workouts[action.workoutId-1].exercises[action.exerciseId-1]);
+            newTitle.workouts[action.workoutId -1].exercises[action.exerciseId -1].name = state.exerciseTitle
+            return newTitle;
+            
+        case actionTypes.TITLE_CHANGED:
+            return {
+                ...state,
+                exerciseTitle: action.newTitle
             }
         default:
             return state;

@@ -16,3 +16,11 @@
     display: flex;
     justify-content: space-around;
 }
+
+.TitleInput{
+    box-sizing: border-box;
+    display: inline-block;
+}
+.TitleButton{
+    display: inline-block;
+}

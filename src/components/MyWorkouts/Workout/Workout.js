@@ -7,7 +7,20 @@ const Workout = (props) => {
     const exercises = props.exercises;
     const allExercises = exercises.map((exercise, index) =>{
         return (
-            <Exercise key={index} name={exercise.name} sets={exercise.sets} />
+            <Exercise 
+                key={exercise.id} 
+                name={exercise.name} 
+                sets={exercise.sets} 
+                exerciseId={exercise.id} 
+                workoutId={props.workoutId}
+                onMouseEnter={props.onMouseEnter}
+                onMouseLeave={props.onMouseLeave}
+                showingNewSet={props.showingNewSet}
+                addNewSet={props.addNewSet}
+                saveExerciseTitle={props.saveExerciseTitle}
+                exerciseTitle={props.exerciseTitle}
+                exerciseTitleChanged={props.exerciseTitleChanged}
+                />
         );
     });
 
