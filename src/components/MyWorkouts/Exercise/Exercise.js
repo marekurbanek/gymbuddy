@@ -39,7 +39,7 @@ const Exercise = (props) => {
     };
 
     return(
-        <div className={classes.Exercise} 
+        <div className={classes.Exercise + ' ' + classes.shadow5} 
             onMouseEnter={(event) => props.onMouseEnter(event, props.exerciseId)}
             onMouseLeave={() => props.onMouseLeave()}>
             <h4 className="text-center">{inputTitle}</h4>

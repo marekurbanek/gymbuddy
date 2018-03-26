@@ -187,9 +187,9 @@ const reducer = (state = initialState, action) => {
                 ...workouts[workoutIdTable].exercises[exerciseIdTable].sets,
                 {
                     id: setLength + 1,
-                    weight: 24,
-                    repetitions: 499,
-                    comment: 'hahaha'
+                    weight: null,
+                    repetitions: null,
+                    comment: null
                 }
             ]
             return{

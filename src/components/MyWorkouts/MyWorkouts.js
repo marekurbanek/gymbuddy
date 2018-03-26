@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-
-import Wrap from '../hoc/Wrap';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import classes from './MyWorkouts.css';
 import Workout from './Workout/Workout';
 import NewWorkout from './Forms/NewWorkout';
 import * as actionTypes from '../../actions/actions';
@@ -17,40 +16,43 @@ class MyWorkouts extends Component {
     }
 
     showWorkoutForm = () => {
-        this.setState({addingNewWorkout: !this.state.addingNewWorkout});
+        this.setState({ addingNewWorkout: !this.state.addingNewWorkout });
     }
 
     addNewWorkoutAndHideForm = () => {
-        this.setState({addingNewWorkout: false});
+        this.setState({ addingNewWorkout: false });
         this.props.addNewWorkout(this.props.workoutName, this.props.workoutDate);
         this.props.clearWorkoutInputs();
     }
 
-    onWorkoutHover = (event, workoutId, exerciseId) =>{
-        this.setState({showingNewSet: {
-            workoutId: workoutId,
-            exerciseId: exerciseId,
-            shouldShow: true,
-        }});
+    onWorkoutHover = (event, workoutId, exerciseId) => {
+        this.setState({
+            showingNewSet: {
+                workoutId: workoutId,
+                exerciseId: exerciseId,
+                shouldShow: true,
+            }
+        });
     }
 
     onMouseLeaveExercise = () => {
-        this.setState({showingNewSet: {
-            workoutId: null,
-            exerciseId: null,
-            shouldShow: false
-        }})
+        this.setState({
+            showingNewSet: {
+                workoutId: null,
+                exerciseId: null,
+                shouldShow: false
+            }
+        })
     }
 
-    render(){
-        const workoutList = this.props.workouts;
-        const allWorkouts = workoutList.map(workout => {
-            return(
-                <Workout 
-                    key={workout.name} 
-                    name={workout.name} 
+    render() {
+        const allWorkouts = this.props.workouts.map(workout => {
+            return (
+                <Workout
+                    key={workout.id}
+                    name={workout.name}
                     date={workout.date}
-                    exercises={workout.exercises} 
+                    exercises={workout.exercises}
                     workoutId={workout.id}
                     addExercise={() => this.props.addExercise(workout.id)}
                     onMouseEnter={(event, exerciseId) => this.onWorkoutHover(event, workout.id, exerciseId)}
@@ -59,24 +61,26 @@ class MyWorkouts extends Component {
                     addNewSet={(workoutId, exerciseId) => this.props.addSet(workoutId, exerciseId)}
                     saveExerciseTitle={(workoutId, exerciseId) => this.props.saveExerciseTitle(workoutId, exerciseId)}
                     exerciseTitleChanged={(event) => this.props.exerciseTitleChanged(event)}
-                    /> 
+                />
             );
         });
 
-        return(
-            <Wrap>
+        return (
+            <div className={classes.WorkoutsContainer}>
                 <h2 className="text-center">My Workouts</h2>
-                <button onClick={this.showWorkoutForm}>Add new Workouot!</button>
-                <NewWorkout 
-                    shouldDisplay={this.state.addingNewWorkout} 
+                <button onClick={this.showWorkoutForm} className="btn btn-primary">Add Workout</button><br />
+                <NewWorkout
+                    shouldDisplay={this.state.addingNewWorkout}
                     workoutNameChanged={this.props.workoutNameChanged}
                     workoutDateChanged={this.props.workoutDateChanged}
                     workoutName={this.props.workoutName}
                     workoutDate={this.props.workoutDate}
                     addNewWorkout={this.addNewWorkoutAndHideForm}
                 />
-                {allWorkouts}
-            </Wrap>
+                <div className={classes.MyWorkouts}>
+                    {allWorkouts}
+                </div>
+            </div>
         );
     }
 };
@@ -93,9 +97,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         addNewWorkout: (name, date) => dispatch({
-            type: actionTypes.ADD_WORKOUT, 
-            name: name, 
-            date: date}),
+            type: actionTypes.ADD_WORKOUT,
+            name: name,
+            date: date
+        }),
         workoutNameChanged: (event) => dispatch({
             type: actionTypes.WORKOUT_NAME_CHANGED,
             value: event.target.value

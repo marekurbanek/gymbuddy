@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
 import NavbarMain from './Navigation/NavbarMain/NavbarMain';
 import WorkoutNav from './Navigation/WorkoutNav/WorkoutNav';
 import MyWorkouts from './MyWorkouts/MyWorkouts';
+import Wrap from './hoc/Wrap';
 
 class App extends Component {
   render() {
     return (
-      <div className="col-md-10 col-md-offset-1">
+      <Wrap>
         <NavbarMain/>
         <WorkoutNav />
         <MyWorkouts />
-      </div>
+      </Wrap>
     );
   }
 }

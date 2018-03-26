@@ -1,0 +1,12 @@
+.NewExercise{
+    display: inline;
+}
+
+.ExerciseName{
+    display: inline;
+}
+
+.Wrapper{
+    display: flex; 
+	flex-wrap: wrap;
+}

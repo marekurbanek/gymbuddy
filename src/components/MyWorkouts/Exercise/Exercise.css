@@ -1,26 +1,33 @@
 .Exercise{
-    width: 32%;
-    -webkit-box-shadow: 7px 7px 5px 0px rgba(46, 50, 50, 0.63);
-    -moz-box-shadow:    7px 7px 5px 0px rgba(46, 50, 50, 0.63);
-    box-shadow:         7px 7px 5px 0px rgba(46, 50, 50, 0.63); 
-    border-radius: 20px;
-    border: 3px solid #6e6e6e;
-    box-sizing: border-box;
-    padding: 10px; 
-    margin-bottom: 10px;
-    margin-right: 10px;
-    display: inline-block;
+  background-color:white; 
+  border-radius:5px;
+  padding: 10px;
+  margin-bottom: 20px;
 }
-
-.ExerciseHeader {
-    display: flex;
+.ExerciseHeader{
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    grid-gap: 0.5em;
     justify-content: space-around;
 }
-
-.TitleInput{
-    box-sizing: border-box;
-    display: inline-block;
+.shadow5{
+    position: relative;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 0, 0, 0.1) inset;
 }
-.TitleButton{
-    display: inline-block;
-}
+.shadow5:before, .shadow5:after{
+    position:absolute;
+    content:"";
+    box-shadow:0 10px 25px 20px rgb(113, 97, 136);
+    top:40px;left:10px;bottom:50px;
+    width:15%;
+    z-index:-1;
+    -webkit-transform: rotate(-8deg);
+    -moz-transform: rotate(-8deg);
+    transform: rotate(-8deg);
+  }
+  .shadow5:after{
+    -webkit-transform: rotate(8deg);
+    -moz-transform: rotate(8deg);
+    transform: rotate(8deg);
+    right: 10px;left: auto;
+  }

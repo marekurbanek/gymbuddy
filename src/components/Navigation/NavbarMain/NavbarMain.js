@@ -1,8 +1,8 @@
 import React from 'react';
 import NavbarElement from '../NavbarElement/NavbarElement';
-
+import classes from './NavbarMain.css';
 const NavbarMain = (props) => (
-    <div>
+    <div className={classes.NavbarMain}>
         <NavbarElement />
     </div>
 );

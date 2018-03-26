@@ -1,0 +1,7 @@
+.NavbarMain{
+    background-color: #332D36;
+    width: 100%;
+    min-height: 2em;
+    border-bottom: 3px solid rgb(31, 27, 32);
+    color: white;
+}
