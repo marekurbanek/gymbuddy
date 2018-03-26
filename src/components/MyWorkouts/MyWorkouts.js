@@ -125,7 +125,6 @@ const mapDispatchToProps = dispatch => {
             type: actionTypes.SAVE_EXERCISE_TITLE,
             workoutId: workoutId,
             exerciseId: exerciseId,
-            exerciseTitle: this.props.exerciseTitle
         }),
 
     };

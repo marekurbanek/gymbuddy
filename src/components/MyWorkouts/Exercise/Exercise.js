@@ -34,6 +34,8 @@ const Exercise = (props) => {
                 </div>
             </Wrap>
         );
+    }else{
+        inputTitle = props.name;
     };
 
     return(

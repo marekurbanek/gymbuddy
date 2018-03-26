@@ -200,10 +200,8 @@ const reducer = (state = initialState, action) => {
             let newTitle = {
                 ...state
             }
-            console.log( newTitle.workouts[action.workoutId-1].exercises[action.exerciseId-1]);
             newTitle.workouts[action.workoutId -1].exercises[action.exerciseId -1].name = state.exerciseTitle
             return newTitle;
-            
         case actionTypes.TITLE_CHANGED:
             return {
                 ...state,
