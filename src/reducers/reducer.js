@@ -15,19 +15,19 @@ const initialState = {
                             id: 1,
                             weight: 25,
                             repetitions: 10,
-                            comment: 'x'                                
+                            comment: 'x'
                         },
                         {
                             id: 2,
                             weight: 25,
                             repetitions: 10,
-                            comment: 's'  
+                            comment: 's'
                         },
                         {
                             id: 3,
                             weight: 25,
                             repetitions: 10,
-                            comment: 'x'  
+                            comment: 'x'
                         },
                     ]
                 },
@@ -39,19 +39,19 @@ const initialState = {
                             id: 1,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''                                
+                            comment: ''
                         },
                         {
                             id: 2,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                         {
                             id: 3,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                     ]
                 },
@@ -70,19 +70,19 @@ const initialState = {
                             id: 1,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''                                
+                            comment: ''
                         },
                         {
                             id: 2,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                         {
                             id: 3,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                     ]
                 },
@@ -94,19 +94,19 @@ const initialState = {
                             id: 1,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''                                
+                            comment: ''
                         },
                         {
                             id: 2,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                         {
                             id: 3,
                             weight: 25,
                             repetitions: 10,
-                            comment: ''  
+                            comment: ''
                         },
                     ]
                 },
@@ -116,10 +116,13 @@ const initialState = {
     workoutName: '',
     workoutDate: '',
     exerciseTitle: '',
+    weight: '',
+    repetitions: '',
+    comments: '',
 };
 
 const reducer = (state = initialState, action) => {
-    switch(action.type){
+    switch (action.type) {
         case actionTypes.ADD_WORKOUT:
             const workoutId = state.workouts.length;
 
@@ -132,18 +135,18 @@ const reducer = (state = initialState, action) => {
                         name: action.name,
                         date: action.date,
                         exercises: [
-                            
+
                         ],
                     }
                 ]
             }
         case actionTypes.WORKOUT_NAME_CHANGED:
-            return{
+            return {
                 ...state,
                 workoutName: action.value
             }
         case actionTypes.WORKOUT_DATE_CHANGED:
-            return{
+            return {
                 ...state,
                 workoutDate: action.value
             }
@@ -163,36 +166,35 @@ const reducer = (state = initialState, action) => {
                 ...state.workouts,
             ];
             newWorkouts[action.workoutId].exercises = newExercises;
-            return{
+            return {
                 ...state,
                 workouts: newWorkouts
             }
         case actionTypes.CLEAR_WORKOUT_INPUT:
-            return{
+            return {
                 ...state,
                 workoutName: '',
                 workoutDate: ''
             }
         case actionTypes.ADD_SET:
-            console.log(state.exerciseTitle)
-            const workoutIdTable = action.workoutId -1;
-            const exerciseIdTable = action.exerciseId -1;
-            
+            const workoutIdTable = action.workoutId - 1;
+            const exerciseIdTable = action.exerciseId - 1;
+
             const workouts = [
                 ...state.workouts,
             ];
-            
+
             const setLength = workouts[workoutIdTable].exercises[exerciseIdTable].sets.length;
             workouts[workoutIdTable].exercises[exerciseIdTable].sets = [
                 ...workouts[workoutIdTable].exercises[exerciseIdTable].sets,
                 {
                     id: setLength + 1,
-                    weight: null,
-                    repetitions: null,
-                    comment: null
+                    weight: '',
+                    repetitions: '',
+                    comment: ''
                 }
             ]
-            return{
+            return {
                 ...state,
                 workouts
             }
@@ -200,12 +202,38 @@ const reducer = (state = initialState, action) => {
             let newTitle = {
                 ...state
             }
-            newTitle.workouts[action.workoutId -1].exercises[action.exerciseId -1].name = state.exerciseTitle
+            newTitle.workouts[action.workoutId - 1].exercises[action.exerciseId - 1].name = state.exerciseTitle
             return newTitle;
         case actionTypes.TITLE_CHANGED:
             return {
                 ...state,
                 exerciseTitle: action.newTitle
+            }
+        case actionTypes.SAVE_EXERCISE_CHANGES:
+            console.log('hejo')
+            console.log(...state);
+            return {
+                ...state,
+            }
+        case actionTypes.WEIGHT_CHANGED:
+            console.log('weight');
+            console.log(action.newWeight);
+            console.log(state.weight);
+            return {
+                ...state,
+                weight: action.newWeight
+            }
+        case actionTypes.REPETITIONS_CHANGED:
+            console.log('repetitions');
+            console.log(action.newRepetitions);
+            return {
+                ...state,
+                repetitions: action.newRepetitions,
+            }
+        case actionTypes.COMMENT_CHANGED:
+            return {
+                ...state,
+                comment: action.newComment,
             }
         default:
             return state;

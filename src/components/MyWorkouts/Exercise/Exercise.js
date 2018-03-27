@@ -13,7 +13,16 @@ const Exercise = (props) => {
         const sets = props.sets;
         allSets = sets.map(set => {
             return (
-                <Set key={set.id} id={set.id} weight={set.weight} repetitions={set.repetitions} comment={set.comment} />
+                <Set
+                    key={set.id}
+                    id={set.id}
+                    weight={set.weight}
+                    repetitions={set.repetitions}
+                    comment={set.comment} 
+                    weightChanged={props.weightChanged}
+                    repetitionsChanged={props.repetitionsChanged}
+                    commentChanged={props.commentChanged}
+                    />
             );
         });
     };
@@ -26,9 +35,9 @@ const Exercise = (props) => {
         inputTitle = (
             <div className="row">
                 <div className="col-md-10">
-                    <Input 
-                        type='input' 
-                        value={props.exerciseTitle} 
+                    <Input
+                        type='input'
+                        value={props.exerciseTitle}
                         changed={props.exerciseTitleChanged}
                         placeholder="Exercise name">
                     </Input>
@@ -42,7 +51,12 @@ const Exercise = (props) => {
             </div>
         );
     } else {
-        inputTitle = <strong>{props.name}</strong>;
+        inputTitle = (
+            <div>
+                <strong>{props.name}</strong>
+                <button className="btn btn-success" onClick={() => props.saveExerciseChanges(props.workoutId, props.exerciseId)}>Save</button>
+            </div>
+        )
     };
 
     return (

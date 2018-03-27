@@ -19,6 +19,10 @@ const Workout = (props) => {
                     saveExerciseTitle={props.saveExerciseTitle}
                     exerciseTitle={props.exerciseTitle}
                     exerciseTitleChanged={props.exerciseTitleChanged}
+                    saveExerciseChanges={props.saveExerciseChanges}
+                    weightChanged={props.weightChanged}
+                    repetitionsChanged={props.repetitionsChanged}
+                    commentChanged={props.commentChanged}
                 />
             </div>
         );

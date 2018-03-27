@@ -61,6 +61,10 @@ class MyWorkouts extends Component {
                     addNewSet={(workoutId, exerciseId) => this.props.addSet(workoutId, exerciseId)}
                     saveExerciseTitle={(workoutId, exerciseId) => this.props.saveExerciseTitle(workoutId, exerciseId)}
                     exerciseTitleChanged={(event) => this.props.exerciseTitleChanged(event)}
+                    saveExerciseChanges={(workoutId, exerciseId) => this.props.saveExerciseChanges(workoutId, exerciseId)}
+                    weightChanged={this.props.weightChanged}
+                    repetitionsChanged={this.props.repetitionsChanged}
+                    commentChanged={this.props.commentChanged}
                 />
             );
         });
@@ -92,7 +96,10 @@ const mapStateToProps = state => {
         workouts: state.workouts,
         workoutName: state.workoutName,
         workoutDate: state.workoutDate,
-        exerciseTitle: state.exerciseTitle
+        exerciseTitle: state.exerciseTitle,
+        weight: state.weight,
+        repetitions: state.repetitions,
+        comment: state.comment
     };
 }
 
@@ -113,7 +120,7 @@ const mapDispatchToProps = dispatch => {
         }),
         addExercise: (id) => dispatch({
             type: actionTypes.ADD_EXERCISE,
-            workoutId: id - 1,
+            workoutId: id - 1
 
         }),
         clearWorkoutInputs: () => dispatch({
@@ -121,7 +128,7 @@ const mapDispatchToProps = dispatch => {
         }),
         exerciseTitleChanged: (event) => dispatch({
             type: actionTypes.TITLE_CHANGED,
-            newTitle: event.target.value,
+            newTitle: event.target.value
         }),
         addSet: (workoutId, exerciseId) => dispatch({
             type: actionTypes.ADD_SET,
@@ -131,9 +138,25 @@ const mapDispatchToProps = dispatch => {
         saveExerciseTitle: (workoutId, exerciseId) => dispatch({
             type: actionTypes.SAVE_EXERCISE_TITLE,
             workoutId: workoutId,
-            exerciseId: exerciseId,
+            exerciseId: exerciseId
         }),
-
+        saveExerciseChanges: (workoutId, exerciseId) => dispatch({
+            type: actionTypes.SAVE_EXERCISE_CHANGES,
+            workoutId: workoutId,
+            exerciseId: exerciseId
+        }),
+        weightChanged: (event) => dispatch({
+            type: actionTypes.WEIGHT_CHANGED,
+            newWeight: event.target.value
+        }),
+        repetitionsChanged: (event) => dispatch({
+            type: actionTypes.REPETITIONS_CHANGED,
+            newRepetitions: event.target.value
+        }),
+        commentChanged: (event) => dispatch({
+            type: actionTypes.COMMENT_CHANGED,
+            newComment: event.target.value
+        })
     };
 }
 
