@@ -6,3 +6,12 @@
 .MyWorkouts{
     padding: 10px;
 }
+
+.AddWorkoutBtn{
+    justify-content: center;
+}
+
+.BtnContainer{
+    display: flex;
+    justify-content: center;
+}

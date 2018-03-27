@@ -2,7 +2,6 @@ import React from 'react';
 import Set from '../Set/Set';
 import classes from './Exercise.css';
 import Input from '../../Input/Input';
-import Wrap from '../../hoc/Wrap';
 
 const Exercise = (props) => {
 
@@ -10,36 +9,44 @@ const Exercise = (props) => {
     let newSet = null;
     let inputTitle = null;
 
-    if(props.sets){
+    if (props.sets) {
         const sets = props.sets;
         allSets = sets.map(set => {
-            return(
-                <Set key={set.id} id={set.id} weight={set.weight} repetitions={set.repetitions} comment={set.comment}/>
+            return (
+                <Set key={set.id} id={set.id} weight={set.weight} repetitions={set.repetitions} comment={set.comment} />
             );
         });
     };
-    if( props.showingNewSet.shouldShow && 
+    if (props.showingNewSet.shouldShow &&
         props.workoutId === props.showingNewSet.workoutId &&
-        props.exerciseId === props.showingNewSet.exerciseId){
-            newSet = <button onClick={() => props.addNewSet(props.workoutId, props.exerciseId)}>Add new Set</button>
-        };
-    if(props.name == null){
+        props.exerciseId === props.showingNewSet.exerciseId) {
+        newSet = <button className="btn btn-success" onClick={() => props.addNewSet(props.workoutId, props.exerciseId)}>Add new Set</button>
+    };
+    if (props.name == null) {
         inputTitle = (
-            <Wrap>
-                <div className={classes.TitleInput}>
-                    <Input type='input' value={props.exerciseTitle} changed={props.exerciseTitleChanged}></Input>
+            <div className="row">
+                <div className="col-md-10">
+                    <Input 
+                        type='input' 
+                        value={props.exerciseTitle} 
+                        changed={props.exerciseTitleChanged}
+                        placeholder="Exercise name">
+                    </Input>
                 </div>
-                <div className={classes.TitleButton}>
-                    <button onClick={() => props.saveExerciseTitle(props.workoutId, props.exerciseId)}>+</button>
+                <div className="col-md-2">
+                    <button
+                        className={"btn btn-success " + classes.AddTitleBtn}
+                        onClick={() => props.saveExerciseTitle(props.workoutId, props.exerciseId)}>+
+                    </button>
                 </div>
-            </Wrap>
+            </div>
         );
-    }else{
-        inputTitle = props.name;
+    } else {
+        inputTitle = <strong>{props.name}</strong>;
     };
 
-    return(
-        <div className={classes.Exercise + ' ' + classes.shadow5} 
+    return (
+        <div className={classes.Exercise + ' ' + classes.shadow5}
             onMouseEnter={(event) => props.onMouseEnter(event, props.exerciseId)}
             onMouseLeave={() => props.onMouseLeave()}>
             <h4 className="text-center">{inputTitle}</h4>

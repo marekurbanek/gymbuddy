@@ -1,5 +1,4 @@
 import React from 'react';
-import Wrap from '../../hoc/Wrap';
 import classes from './Workout.css';
 import Exercise from '../Exercise/Exercise';
 
@@ -27,14 +26,14 @@ const Workout = (props) => {
 
 
     return (
-        <Wrap>
-            <div className={classes.ExerciseName}>{props.name}, {props.date}</div>
-            <button onClick={props.addExercise} className={classes.NewExercise}>Add new exercise</button>
+        <div className={classes.Workout}>
+            <div className={classes.ExerciseName}><h4>{props.date}</h4>
+                <button onClick={props.addExercise} className={"btn btn-default " + classes.NewExercise}>Add new exercise</button>
+            </div>
             <div className={classes.Wrapper + " row"}>
                 {allExercises}
             </div>
-            <hr />
-        </Wrap>
+        </div>
     );
 
 };

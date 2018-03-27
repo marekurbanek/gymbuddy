@@ -68,7 +68,9 @@ class MyWorkouts extends Component {
         return (
             <div className={classes.WorkoutsContainer}>
                 <h2 className="text-center">My Workouts</h2>
-                <button onClick={this.showWorkoutForm} className="btn btn-primary">Add Workout</button><br />
+                <div className={classes.BtnContainer}>
+                    <button onClick={this.showWorkoutForm} className={"btn btn-primary"}>Add Workout</button><br />
+                </div>
                 <NewWorkout
                     shouldDisplay={this.state.addingNewWorkout}
                     workoutNameChanged={this.props.workoutNameChanged}
