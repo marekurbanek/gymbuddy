@@ -13,3 +13,4 @@ export const COMMENT_CHANGED = 'COMMENT_CHANGED';
 export const SHOW_SET_FORM = 'SHOW_SET_FORM';
 export const REMOVE_EXERCISE = 'REMOVE_EXERCISE';
 export const REMOVE_WORKOUT = 'REMOVE_WORKOUT';
+export const REMOVE_SET = 'REMOVE_SET';

@@ -7,7 +7,32 @@ import * as actionTypes from '../../../actions/actions';
 import ExerciseTitleInput from '../ExerciseTitleInput/ExerciseTitleInput';
 
 class Exercise extends Component {
+    state = {
+        removeSetBtn: {
+            isVisible: false,
+            setId: null,
+        }
+    }
+    onSetEnter = (setId) => {
+        this.setState({
+            removeSetBtn: {
+                isVisible: true,
+                setId: setId,
+            }
+        })
+    }
+    removeSet = (workoutId, exerciseId, setId) => {
 
+    }
+
+    onSetLeave = () => {
+        this.setState({
+            removeSetBtn: {
+                isVisible: false,
+                setId: null,
+            }
+        })
+    }
 
     render() {
         let newSetForm = null;
@@ -35,16 +60,21 @@ class Exercise extends Component {
         }
 
         if (this.props.sets) {
-            allSets = this.props.sets.map(set => {
+            allSets = this.props.sets.map((set, index) => {
                 return (
                     <Set
                         key={set.id}
+                        setIndex={index}
                         setId={set.id}
                         weight={set.weight}
                         repetitions={set.repetitions}
                         comment={set.comment}
                         workoutId={this.props.workoutId}
                         exerciseId={this.props.exerciseId}
+                        onSetEnter={this.onSetEnter}
+                        removeSetBtn={this.state.removeSetBtn}
+                        removeSet={this.props.removeSet}
+                        onSetLeave={this.onSetLeave}
                     />
                 );
             });
@@ -74,7 +104,7 @@ class Exercise extends Component {
                     <div className="col-md-8">
                         <strong>{this.props.name}</strong>
                     </div>
-                    <div className="col-md-2">
+                    <div className={classes.TrashBtn + " col-md-2"}>
                         <button className="btn btn-default" onClick={() => this.props.removeExercise(this.props.workoutId, this.props.exerciseId)}>
                             <span className="glyphicon glyphicon-trash"></span>
                         </button>
@@ -133,6 +163,12 @@ const mapDispatchToProps = dispatch => {
             type: actionTypes.REMOVE_EXERCISE,
             workoutId: workoutId,
             exerciseId: exerciseId
+        }),
+        removeSet: (workoutId, exerciseId, setId) => dispatch({
+            type: actionTypes.REMOVE_SET,
+            workoutId: workoutId,
+            exerciseId: exerciseId,
+            setId: setId
         }),
     }
 }
