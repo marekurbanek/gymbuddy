@@ -19,21 +19,26 @@ const Workout = (props) => {
                     saveExerciseTitle={props.saveExerciseTitle}
                     exerciseTitle={props.exerciseTitle}
                     exerciseTitleChanged={props.exerciseTitleChanged}
-                    saveExerciseChanges={props.saveExerciseChanges}
-                    weightChanged={props.weightChanged}
-                    repetitionsChanged={props.repetitionsChanged}
-                    commentChanged={props.commentChanged}
                 />
             </div>
         );
     });
 
-
     return (
         <div className={classes.Workout}>
-            <div className={classes.ExerciseName}><h4>{props.date}</h4>
-                <button onClick={props.addExercise} className={"btn btn-default " + classes.NewExercise}>Add new exercise</button>
+            <div className="row">
+                <div className="col-md-8 col-md-offset-2">
+                    <div className={classes.ExerciseName}><h4>{props.date}</h4>
+                        <button onClick={props.addExercise} className={"btn btn-default " + classes.NewExercise}>Add new exercise</button>
+                    </div>
+                </div>
+                <div className="col-md-1 col-md-offset-1">
+                    <button className="btn btn-default" onClick={() => props.removeWorkout(props.workoutId)}>
+                            <span className="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
             </div>
+
             <div className={classes.Wrapper + " row"}>
                 {allExercises}
             </div>

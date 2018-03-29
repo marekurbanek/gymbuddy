@@ -58,13 +58,9 @@ class MyWorkouts extends Component {
                     onMouseEnter={(event, exerciseId) => this.onWorkoutHover(event, workout.id, exerciseId)}
                     onMouseLeave={this.onMouseLeaveExercise}
                     showingNewSet={this.state.showingNewSet}
-                    addNewSet={(workoutId, exerciseId) => this.props.addSet(workoutId, exerciseId)}
                     saveExerciseTitle={(workoutId, exerciseId) => this.props.saveExerciseTitle(workoutId, exerciseId)}
                     exerciseTitleChanged={(event) => this.props.exerciseTitleChanged(event)}
-                    saveExerciseChanges={(workoutId, exerciseId) => this.props.saveExerciseChanges(workoutId, exerciseId)}
-                    weightChanged={this.props.weightChanged}
-                    repetitionsChanged={this.props.repetitionsChanged}
-                    commentChanged={this.props.commentChanged}
+                    removeWorkout={this.props.removeWorkout}
                 />
             );
         });
@@ -120,7 +116,7 @@ const mapDispatchToProps = dispatch => {
         }),
         addExercise: (id) => dispatch({
             type: actionTypes.ADD_EXERCISE,
-            workoutId: id - 1
+            workoutId: id 
 
         }),
         clearWorkoutInputs: () => dispatch({
@@ -140,22 +136,9 @@ const mapDispatchToProps = dispatch => {
             workoutId: workoutId,
             exerciseId: exerciseId
         }),
-        saveExerciseChanges: (workoutId, exerciseId) => dispatch({
-            type: actionTypes.SAVE_EXERCISE_CHANGES,
-            workoutId: workoutId,
-            exerciseId: exerciseId
-        }),
-        weightChanged: (event) => dispatch({
-            type: actionTypes.WEIGHT_CHANGED,
-            newWeight: event.target.value
-        }),
-        repetitionsChanged: (event) => dispatch({
-            type: actionTypes.REPETITIONS_CHANGED,
-            newRepetitions: event.target.value
-        }),
-        commentChanged: (event) => dispatch({
-            type: actionTypes.COMMENT_CHANGED,
-            newComment: event.target.value
+        removeWorkout: (workoutId) => dispatch({
+            type: actionTypes.REMOVE_WORKOUT,
+            workoutId: workoutId
         })
     };
 }

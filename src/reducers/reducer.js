@@ -116,22 +116,39 @@ const initialState = {
     workoutName: '',
     workoutDate: '',
     exerciseTitle: '',
-    weight: '',
-    repetitions: '',
-    comments: '',
+    newSet: {
+        isVisible: false,
+        workoutId: null,
+        exerciseId: null,
+        weight: '',
+        repetitions: '',
+        comments: '',
+    }
 };
 
 const reducer = (state = initialState, action) => {
+    let workoutIndex = null;
+    const findWorkoutIndexById = (workoutId) => {
+        state.workouts.map((workout, index) => {
+            if (workout.id === workoutId) {
+                workoutIndex = index;
+            }
+        })
+    }
     switch (action.type) {
         case actionTypes.ADD_WORKOUT:
-            const workoutId = state.workouts.length;
-
+            let workoutId = null
+            if (state.workouts.length === 0) {
+                workoutId = 1
+            } else {
+                workoutId = state.workouts[state.workouts.length - 1].id + 1;
+            }
             return {
                 ...state,
                 workouts: [
                     ...state.workouts,
                     {
-                        id: workoutId + 1,
+                        id: workoutId,
                         name: action.name,
                         date: action.date,
                         exercises: [
@@ -151,11 +168,16 @@ const reducer = (state = initialState, action) => {
                 workoutDate: action.value
             }
         case actionTypes.ADD_EXERCISE:
-            const exercisesLength = state.workouts[action.workoutId].exercises.length;
+            findWorkoutIndexById(action.workoutId)
+            const exercisesLength = state.workouts[workoutIndex].exercises.length - 1;
+            let exerciseId = 1
+            if (exercisesLength !== -1) {
+                exerciseId = state.workouts[workoutIndex].exercises[exercisesLength].id + 1;
+            }
             const newExercises = [
-                ...state.workouts[action.workoutId].exercises,
+                ...state.workouts[workoutIndex].exercises,
                 {
-                    id: exercisesLength + 1,
+                    id: exerciseId,
                     name: null,
                     sets: [
 
@@ -165,7 +187,7 @@ const reducer = (state = initialState, action) => {
             const newWorkouts = [
                 ...state.workouts,
             ];
-            newWorkouts[action.workoutId].exercises = newExercises;
+            newWorkouts[workoutIndex].exercises = newExercises;
             return {
                 ...state,
                 workouts: newWorkouts
@@ -177,32 +199,41 @@ const reducer = (state = initialState, action) => {
                 workoutDate: ''
             }
         case actionTypes.ADD_SET:
-            const workoutIdTable = action.workoutId - 1;
-            const exerciseIdTable = action.exerciseId - 1;
+            findWorkoutIndexById(state.newSet.workoutId)
+            const exerciseIdTable = state.newSet.exerciseId - 1;
 
             const workouts = [
                 ...state.workouts,
             ];
 
-            const setLength = workouts[workoutIdTable].exercises[exerciseIdTable].sets.length;
-            workouts[workoutIdTable].exercises[exerciseIdTable].sets = [
-                ...workouts[workoutIdTable].exercises[exerciseIdTable].sets,
+            const setLength = workouts[workoutIndex].exercises[exerciseIdTable].sets.length;
+            workouts[workoutIndex].exercises[exerciseIdTable].sets = [
+                ...workouts[workoutIndex].exercises[exerciseIdTable].sets,
                 {
                     id: setLength + 1,
-                    weight: '',
-                    repetitions: '',
-                    comment: ''
+                    weight: state.newSet.weight,
+                    repetitions: state.newSet.repetitions,
+                    comment: state.newSet.comments
                 }
             ]
             return {
                 ...state,
-                workouts
+                workouts,
+                newSet: {
+                    isVisible: false,
+                    workoutId: null,
+                    exerciseId: null,
+                    weight: '',
+                    repetitions: '',
+                    comments: '',
+                }
             }
         case actionTypes.SAVE_EXERCISE_TITLE:
+            findWorkoutIndexById(action.workoutId)
             let newTitle = {
                 ...state
             }
-            newTitle.workouts[action.workoutId - 1].exercises[action.exerciseId - 1].name = state.exerciseTitle
+            newTitle.workouts[workoutIndex].exercises[action.exerciseId - 1].name = state.exerciseTitle
             return newTitle;
         case actionTypes.TITLE_CHANGED:
             return {
@@ -210,34 +241,62 @@ const reducer = (state = initialState, action) => {
                 exerciseTitle: action.newTitle
             }
         case actionTypes.SAVE_EXERCISE_CHANGES:
-            console.log('hejo')
-            console.log(...state);
             return {
                 ...state,
             }
         case actionTypes.WEIGHT_CHANGED:
-            console.log('weight');
-            console.log(action.newWeight);
-            console.log(state.weight);
             return {
                 ...state,
-                weight: action.newWeight
+                newSet: {
+                    ...state.newSet,
+                    weight: action.newWeight,
+                }
             }
         case actionTypes.REPETITIONS_CHANGED:
-            console.log('repetitions');
-            console.log(action.newRepetitions);
             return {
                 ...state,
-                repetitions: action.newRepetitions,
+                newSet: {
+                    ...state.newSet,
+                    repetitions: action.newRepetitions,
+                }
             }
         case actionTypes.COMMENT_CHANGED:
             return {
                 ...state,
-                comment: action.newComment,
+                newSet: {
+                    ...state.newSet,
+                    comments: action.newComment,
+                }
+            }
+        case actionTypes.SHOW_SET_FORM:
+            return {
+                ...state,
+                newSet: {
+                    ...state.newSet,
+                    isVisible: true,
+                    workoutId: action.workoutId,
+                    exerciseId: action.exerciseId,
+                }
+            }
+        case actionTypes.REMOVE_EXERCISE:
+            return {
+                ...state
+            }
+        case actionTypes.REMOVE_WORKOUT:
+            const removedWorkouts = [
+                ...state.workouts
+            ];
+            const toDelete = new Set([action.workoutId]);
+            const newArray = removedWorkouts.filter(obj => !toDelete.has(obj.id));
+            return {
+                ...state,
+                workouts: newArray
             }
         default:
             return state;
     }
 };
+
+
 
 export default reducer;
